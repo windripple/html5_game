@@ -1,0 +1,1149 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+	<style>
+			canvas {
+  border: solid 5px gray; 
+}
+</style>
+		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+		<script src="htf.js"></script>
+		<script type="text/javascript">
+		var width = 480;
+		var height = 600;
+		var count;
+		var num ;
+		var endAnimation_x ;
+		var endMin;
+		var endSec;
+		var endMin_y ;
+		var endSec_y  ;
+		var endWrong_y ;
+		var cognition_grade ;
+		var cognition_grade_num;
+		var ding_audio;
+		var vNum1;
+		var vNum2;
+		var create_time ;
+		var vNum3;
+		var vNum4;
+		var vNum5;
+		var vNum6;
+		var ques_text;
+		var endAnimation_playtime;
+		var bg0 = 'gray';
+		var bg1 = 'gray';
+		var bg2 = 'gray';
+		var bg3 = 'gray';
+		var bg4 = 'gray';
+		var bg5 = 'gray';
+		var ques_x ;
+		var seconds;
+		var sec;
+		var count_print_sec;
+		var min ;
+		var color = "red";
+		var starttime;
+		var state;
+		var mx = 0 ;
+	    var my = 0 ;
+		var fillstyle = 'gray';
+		var fontStyle ;
+		var fillstyle2 = 'gray';
+		var fontStyle2 ;
+		var suggestion;
+		var ding;
+		var ding2;
+		var gamestarttime;
+		var gameStart ;
+		var bingo;
+		var playagain_text;
+		var intro_img;
+		
+		var background = ['black','white'];
+		var textcolor = ['red','orange','#D9DC00','green','blue','purple'];
+		
+		var text =['紅色','橘色','黃色','綠色','藍色','紫色'];
+		var ans_background =[];
+		var ans_text=[];
+		var ans_color=[];
+		
+		var Dong ;
+		
+		
+		var answer;
+		var bgcolor;
+		
+		var wrong_time;
+		
+		var have_been_chosen_0 = false;
+		var have_been_chosen_1 = false;
+		var have_been_chosen_2 = false;
+		var have_been_chosen_3 = false;
+		var have_been_chosen_4 = false;
+		var have_been_chosen_5 = false;
+		
+		var wrong0 = false;
+		var wrong1 = false;
+		var wrong2 = false;
+		var wrong3 = false;
+		var wrong4 = false;
+		var wrong5 = false;
+		
+		var wrong_sound;
+		var right_sound;
+
+		var question_Quantity;
+		var bingo_time;
+		var playagain_color;
+		var event_time = 0;
+		
+		
+		function initial(){
+		
+			intro_img = new Image();
+			intro_img.src = 'intro.png';
+		
+			question_Quantity = 15;
+			bingo_time = 0;
+			fontStyle = '30pt Arial';
+			fontStyle2 = '23pt 微軟正黑體';
+			drawBackground0();	
+			ding = new Audio()
+			ding.src = 'ding.wav';
+			ding2 = new Audio()
+			ding2.src = 'ding2.mp3';
+			wrong_sound = new Audio();
+			wrong_sound.src = 'wrong.mp3';
+			right_sound = new Audio();
+			right_sound.src = 'right.wav';
+			Dong = new Audio();
+			Dong.src = 'Gong.wav';
+			wrong_time = 0;
+			gameStart = false;
+			bingo = false;
+			state = 0;
+			min = 0;
+			ques_x = 450;
+			endAnimation_playtime = 0;		
+			count = 4;
+			num = 1;
+			endAnimation_x = 500;
+			endMin=0;
+			endSec=0;
+			endMin_y = -50;
+			endSec_y = -50;
+			endWrong_y = -50;
+			cognition_grade = 0;
+			cognition_grade_num = 0;
+			ding_audio = 0;
+			create_time = 0;
+			playagain_color ='gray';
+			playagain_text='30pt Segoe Print';
+			suggestion = '';
+			
+			if(event_time==0){
+			
+				$('#cvs').mousemove(function(e){
+				
+					mx = e.offsetX;
+					my = e.offsetY;
+					
+				
+					
+				}).mouseup(function(){
+				  md = false;
+				}).mousedown(function(){
+				  md = true;
+				}).dblclick(function(){
+					//reset
+					reset = true;
+				}).mouseout(function(){
+				  md = false;
+				}).click(function(){
+					
+					if(state == 0)
+					{
+						if(180<mx && mx<280 && 366<my&& my<400)
+						{
+								starttime = new Date(); 
+								starttime = Number(starttime.getTime()); 
+								state = 1;
+						}
+						
+						if(170<mx && mx<310 && 470<my&& my<510)
+						{
+							state = 4;
+						
+						}
+					}else if(state == 1)
+					{
+						//state = 2; 
+						
+							if(116<mx && mx<196 && 232<my&& my<272 && ques_x==130 && gameStart)
+							{
+								if(answer == ans_text[0])
+								{
+									question_Quantity-=1;
+									bingo = true;
+									have_been_chosen_0=false;
+									have_been_chosen_1=false;
+									have_been_chosen_2=false;
+									have_been_chosen_3=false;
+									have_been_chosen_4 = false;
+									have_been_chosen_5 = false;
+									wrong0 = false;
+									wrong1 = false;
+									wrong2 = false;
+									wrong3 = false;
+									wrong4 = false;
+									wrong5 = false;
+									bingo_time++;
+								}else if(!have_been_chosen_0)
+								{wrong_time++; have_been_chosen_0=true; wrong0=true; wrong_sound.play();}
+								else{}
+								
+							}
+							else if(116<mx && mx<196 && 295<my&& my<333 && ques_x==130 && gameStart)
+							{
+								if(answer == ans_text[1])
+								{
+									question_Quantity-=1;
+									bingo = true;
+									have_been_chosen_0=false;
+									have_been_chosen_1=false;
+									have_been_chosen_2=false;
+									have_been_chosen_3=false;
+									have_been_chosen_4 = false;
+									have_been_chosen_5 = false;
+									wrong0 = false;
+									wrong1 = false;
+									wrong2 = false;
+									wrong3 = false;
+									wrong4 = false;
+									wrong5 = false;
+									bingo_time++;
+								}else if(!have_been_chosen_1)
+								{wrong_time++;have_been_chosen_1=true; wrong1=true;wrong_sound.play();}
+								else{}
+								
+							}
+							else if(305<mx && mx<390 && 232<my&& my<272 && ques_x==130 && gameStart)
+							{
+								if(answer == ans_text[2])
+								{
+									question_Quantity-=1;
+									bingo = true;
+									have_been_chosen_0=false;
+									have_been_chosen_1=false;
+									have_been_chosen_2=false;
+									have_been_chosen_3=false;
+									have_been_chosen_4 = false;
+									have_been_chosen_5 = false;
+									wrong0 = false;
+									wrong1 = false;
+									wrong2 = false;
+									wrong3 = false;
+									wrong4 = false;
+									wrong5 = false;
+									bingo_time++;
+								}else if(!have_been_chosen_2)
+								{wrong_time++;have_been_chosen_2=true; wrong2=true; wrong_sound.play();}
+								else{}
+								
+							}
+							else if(305<mx && mx<390 && 295<my&& my<333 && ques_x==130 && gameStart)
+							{
+								if(answer == ans_text[3])
+								{
+									question_Quantity-=1;
+									bingo = true;
+									have_been_chosen_0=false;
+									have_been_chosen_1=false;
+									have_been_chosen_2=false;
+									have_been_chosen_3=false;
+									have_been_chosen_4 = false;
+									have_been_chosen_5 = false;
+									wrong0 = false;
+									wrong1 = false;
+									wrong2 = false;
+									wrong3 = false;
+									wrong4 = false;
+									wrong5 = false;
+									bingo_time++;
+								}else if(!have_been_chosen_3)
+								{wrong_time++;have_been_chosen_3=true; wrong3=true;wrong_sound.play();}
+								else{}
+								
+							}else if(116<mx && mx<196 && 354<my&& my<394 && ques_x==130 && gameStart)
+							{
+								if(answer == ans_text[4])
+								{
+									question_Quantity-=1;
+									bingo = true;
+									have_been_chosen_0=false;
+									have_been_chosen_1=false;
+									have_been_chosen_2=false;
+									have_been_chosen_3=false;
+									have_been_chosen_4 = false;
+									have_been_chosen_5 = false;
+									wrong0 = false;
+									wrong1 = false;
+									wrong2 = false;
+									wrong3 = false;
+									wrong4 = false;
+									wrong5 = false;
+									bingo_time++;
+								}else if(!have_been_chosen_4)
+								{wrong_time++;have_been_chosen_4=true;wrong4= true;wrong_sound.play();}
+								else{}
+								
+							}
+							else if(305<mx && mx<390 && 354<my&& my<394 && ques_x==130 && gameStart)
+							{
+								if(answer == ans_text[5])
+								{
+									question_Quantity-=1;
+									bingo = true;
+									have_been_chosen_0=false;
+									have_been_chosen_1=false;
+									have_been_chosen_2=false;
+									have_been_chosen_3=false;
+									have_been_chosen_4 = false;
+									have_been_chosen_5 = false;
+									wrong0 = false;
+									wrong1 = false;
+									wrong2 = false;
+									wrong3 = false;
+									wrong4 = false;
+									wrong5 = false;
+									bingo_time++;
+								}else if(!have_been_chosen_5)
+								{wrong_time++;have_been_chosen_5=true; wrong5=true;wrong_sound.play();}
+								else{}
+								
+							}else{}
+						}if(state == 2)
+						{
+							if(cognition_grade_num ==cognition_grade && 180<mx && mx<420 && 400<my&& my<450)
+							{
+								initial();
+							}
+						}else{}
+						
+						if(state == 4)
+						{
+							if(330<mx && mx<450 && 540<my&& my<580)
+						{
+								starttime = new Date(); 
+								starttime = Number(starttime.getTime()); 
+								state = 1;
+						}
+						}
+					
+	
+				});
+				
+				event_time++;
+			}
+					
+		}
+		
+		
+		
+		
+		function update(){
+		
+					if(state == 0)
+					{
+						if(180<mx && mx<280 && 366<my&& my<400)
+						{
+							fontStyle = 'bold 30pt Segoe Print';
+							fillstyle = 'red';
+					
+
+							if(ding_audio ==0)
+							{
+								ding2.play();
+							}
+							ding_audio++;
+						}
+						else if(170<mx && mx<310 && 470<my&& my<510)
+						{
+							fontStyle2 = 'bold 25pt 微軟正黑體';
+							fillstyle2 = 'red';
+					
+
+							if(ding_audio ==0)
+							{
+								ding2.play();
+							}
+							ding_audio++;
+						}else
+						{
+							fontStyle = '30pt Segoe Print';	
+							fillstyle = 'gray';
+					
+							fontStyle2 = '25pt 微軟正黑體';
+							fillstyle2 = 'gray';
+							ding_audio = 0;
+							
+						}
+						
+					}else if(state == 1)
+					{
+						if(gameStart){
+						
+							if(question_Quantity ==0)
+							{
+								state = 2;
+							}
+						
+						if(116<mx && mx<196 && 232<my&& my<272 && ques_x==130)
+						{
+							bg0='red';
+							
+						}else{bg0='gray';}
+						if(116<mx && mx<196 && 295<my&& my<333 && ques_x==130)
+						{
+							bg1='red';
+							
+						}else{bg1='gray';}
+						if(305<mx && mx<390 && 232<my&& my<272 && ques_x==130)
+						{
+							bg2='red';
+							
+						}else{bg2='gray';}
+						if(305<mx && mx<390 && 295<my&& my<333 && ques_x==130)
+						{
+							bg3='red';
+							
+						}else{bg3='gray';}
+						if(116<mx && mx<196 && 354<my&& my<394 && ques_x==130)
+						{
+							bg4='red';
+							
+						}else{bg4='gray';}
+						if(305<mx && mx<390 && 354<my&& my<394 && ques_x==130)
+						{
+							bg5='red';
+							
+						}else{bg5='gray';}
+						
+						
+						
+						if(bingo==false)
+						{
+							if(create_time==0)
+							{
+								vNum1 =Math.random();
+								answer = Math.round(vNum1*5);
+								vNum2 =Math.random();
+								bgcolor = Math.round(vNum2*1);
+								vNum4 =Math.random();
+								ques_text = Math.round(vNum4*5);
+								
+								for(i=0 ; i<6 ; i++)
+								{
+									
+									vNum3 =Math.random();
+									vNum3 = Math.round(vNum3*1);
+									ans_background[i]=vNum3;
+								
+								}
+								
+								vNum5 =Math.random();
+								vNum5 = Math.round(vNum5*5);
+								vNum6 =Math.random();
+								vNum6 = Math.round(vNum6*5);
+								
+								for(i=0 ;i<6;i++)
+								{
+									
+									if(vNum5<6)
+									{
+										ans_text[vNum5]=i;
+										
+										vNum5++;
+									}
+									else
+									{
+										vNum5=0;
+										
+										i--;
+									}
+								}
+								
+								for(i=0 ;i<6;i++)
+								{
+									
+									if(vNum6<6)
+									{
+										
+										ans_color[vNum6]=i;
+										vNum6++;
+									}
+									else
+									{
+										
+										vNum6=0;
+										i--;
+									}
+								}
+									
+									
+									
+									
+									
+								
+							}
+							create_time++;
+							
+							
+						}
+						}
+					}else if(state == 2)
+					{
+							if(cognition_grade_num ==cognition_grade && 180<mx && mx<420 && 400<my&& my<450)
+							{
+								playagain_color ='red';
+								playagain_text='bold 30pt Segoe Print';
+								if(ding_audio ==0)
+								{
+									ding2.play();
+								}
+							ding_audio++;
+							}else
+							{
+								ding_audio = 0;
+								playagain_color ='gray';
+								playagain_text='30pt Segoe Print';
+							}
+							
+							
+					}else if(state ==4)
+					{
+						if(330<mx && mx<450 && 540<my&& my<580)
+						{
+							fontStyle = 'bold 30pt Segoe Print';
+							fillstyle = 'red';
+					
+
+							if(ding_audio ==0)
+							{
+								ding2.play();
+							}
+							ding_audio++;
+						}
+						
+						else
+						{
+							fontStyle = '30pt Segoe Print';	
+							fillstyle = 'gray';
+					
+							
+							ding_audio = 0;
+							
+						}
+						
+					}else{}
+	
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		function draw(){
+			
+			
+			
+					if(state == 0)
+					{	
+						
+						
+						drawBackground0();
+								for(i=0;i<6;i++)
+						{
+							ctx.beginPath();
+							ctx.fillStyle=textcolor[i];
+							ctx.fillRect(i*40+120,80,40,30);
+							ctx.closePath();
+							
+						}
+						
+						
+						ctx.beginPath();
+						ctx.fillStyle = '#383769';  
+						ctx.font="bold 30pt 微軟正黑體";
+						ctx.fillText('認知能力訓練',120,200);
+						
+						ctx.fillStyle = '#383769';  
+						ctx.font="20pt 微軟正黑體";
+						ctx.fillText('－文字辨識－',250,260);
+						ctx.fillStyle = fillstyle;  
+						ctx.font= fontStyle; 
+						ctx.fillText('Start',180,400);
+						ctx.fillStyle = fillstyle2;  
+						ctx.font= fontStyle2; 
+						ctx.fillText('遊戲說明',170,500);
+					
+						
+					}else if(state == 1)
+					{
+					
+						drawBackground1();
+						if(gameStart)
+						{
+							questionAnimation();
+							
+						}else
+						{
+							prepareAnimation();
+						}
+						
+						
+					}else if(state == 2)
+					{
+					
+						if(endAnimation_playtime ==0)
+						{
+							endAnimation()
+								
+
+						}else	
+						{
+							drawBackground0();
+							finallyAnimation();
+						
+						}
+					}else if(state == 4)
+					{
+					
+							gameIntroduction();
+					
+					
+					}else{}
+			
+
+			
+		}		
+		
+		
+		
+				function gameIntroduction()
+				{
+					drawBackground0();
+					ctx.fillStyle = "blue";
+					ctx.font="bold 14pt 微軟正黑體"; 
+					ctx.fillText('關於此遊戲:',10,30);
+					ctx.fillStyle = "gray";
+					ctx.fillText('研究指出左腦是以語言處理訊息，控制知識、判斷力、',10,50);
+					ctx.fillText('思考力因此被稱為「知性腦」，而右腦控制著自律神經，',10,70);
+					ctx.fillText('因此造型能力優越，被稱為「藝術腦」，',10,90);
+					ctx.fillText('而此遊戲透過顏色以及文字混合，藉此訓練使用者的',10,110);
+					ctx.fillText('左右腦。',10,130);
+					ctx.fillStyle = "blue";
+					ctx.font="bold 14pt 微軟正黑體"; 
+					ctx.fillText('遊戲方法:',10,170);
+					ctx.drawImage(intro_img,10, 190);
+						ctx.fillStyle = fillstyle;  
+						ctx.font= fontStyle; 
+						ctx.fillText('Start',340,580);
+				}
+		
+				
+				function finallyAnimation()
+				{
+						endMin=Math.floor(seconds/60);
+						endSec=Math.floor(seconds%60);
+						ctx.beginPath();
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('花費時間',10,30);
+						ctx.font="bold 13pt Segoe Print"; 
+						ctx.fillStyle='blue';
+						if(endMin_y<30)
+						{
+							ctx.fillText(endMin,110,endMin_y);
+							endMin_y+=3;
+						}
+						else
+						{
+							ctx.fillText(endMin,110,30);
+						}
+						ctx.fillStyle = "gray";
+						ctx.fillText('Minutes',135,30);
+						ctx.fillStyle='blue';
+						
+						if(endSec_y<30 && endMin_y>30)
+						{
+							ctx.fillText(endSec,215,endSec_y);
+							endSec_y+=3;
+						}
+						else if(endSec_y>30)
+						{
+							ctx.fillText(endSec,215,30);
+						}
+						ctx.fillStyle = "gray";
+						ctx.fillText('Seconds',250,30);
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('錯誤次數',10,80);
+						ctx.font="bold 13pt Segoe Print"; 
+						ctx.fillStyle='blue';
+						if(endWrong_y<30 && endSec_y>30)
+						{
+								ctx.fillText(wrong_time,110,endWrong_y);
+							endWrong_y+=3;
+						}
+						else if(endWrong_y>30)
+						{
+								ctx.fillText(wrong_time,110,80);
+						}
+						
+						cognition_grade = Math.floor(Math.sqrt(seconds+wrong_time)*30);
+						
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('次',135,80);
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('認知分數:',10,130);
+						if(endWrong_y>30)
+						{
+							if(cognition_grade != cognition_grade_num)
+							{
+								cognition_grade_num++;
+								ding.play();
+							}
+							ctx.fillStyle='blue';
+							ctx.fillText(cognition_grade_num,110,130);
+						}
+						
+						
+						
+						
+						if(150<=cognition_grade<=200)
+						{
+							suggestion = "相當於一般大學生，能力開始有走下坡的情況";
+						}else if(200<cognition_grade<250)
+						{
+							suggestion = "相當於一般中壯年，偶而會忘東忘西";
+						}else if(250<=cognition_grade)
+						{
+							suggestion = "相當於老年人，各能力已衰退";
+						}else if(cognition_grade<150)
+						{
+							suggestion = "相當於青少年，各能力狀態絕佳";
+						}else{}
+						
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('認知能力:',10,180);
+						
+						if(cognition_grade_num ==cognition_grade)
+						{
+						
+							ctx.fillStyle = "black";
+							ctx.font="bold 12pt 微軟正黑體"; 
+							ctx.fillText(suggestion,10,200);
+							ctx.fillStyle = playagain_color;
+							ctx.font= playagain_text; 
+							ctx.fillText('Play again',200,450);
+						}
+						
+						
+						ctx.closePath();
+				}
+				
+			function endAnimation()
+			{
+						drawBackground1();
+						ctx.beginPath();
+						ctx.fillStyle = "gray";
+						ctx.font="bold 50pt Segoe Print"; 
+						ctx.fillText('End',endAnimation_x,245);
+						
+						ctx.closePath();
+						if(160<endAnimation_x<320)
+						{
+							endAnimation_x-=10;
+						}else{endAnimation_x-=25;}
+						if(endAnimation_x < -200)
+						{
+							endAnimation_playtime = 1;
+						}
+			}
+		
+			function prepareAnimation()
+			{		
+					var now = new Date(); 
+					now = Number(now.getTime()); 
+					if(Math.floor(.5+(now-starttime)/1000)<4)
+					{
+						
+						ctx.fillStyle = "gray";
+						ctx.beginPath();
+						ctx.font="bold 50pt 微軟正黑體"; 
+						ctx.fillText(count,220,265);
+						ctx.arc(235,245,80,0,Math.PI*2,true);
+						ctx.lineWidth = 5;
+						ctx.strokeStyle = "gray";
+						ctx.stroke();
+						ctx.closePath();
+						
+						if(Math.floor(.5+(now-starttime)/1000) == num)
+						{
+							ding.play();
+							count--;
+							
+							num++;
+						}
+						
+						ctx.fillStyle = "black";
+						ctx.beginPath();
+						ctx.font="bold 50pt 微軟正黑體"; 
+						ctx.fillText(count,223,268);
+						ctx.arc(240,245,80,0,Math.PI*2,true);
+						ctx.lineWidth = 5;
+						ctx.strokeStyle = "black";
+						ctx.stroke();
+						ctx.closePath();
+					}
+					else
+					{
+						Dong.play();
+						gameStart = true;
+						gamestarttime = new Date(); 
+						gamestarttime = Number(gamestarttime.getTime());
+						count_print_sec = gamestarttime;
+					}
+										
+			}
+			
+			
+			function questionAnimation()
+			{	
+						var now = new Date(); 
+						now = Number(now.getTime()); 
+						var milli_sec = new Date();
+						milli_sec = Math.floor(milli_sec.getMilliseconds()/10);
+						seconds = Math.floor((now-gamestarttime)/1000);
+						sec = Math.floor((now-count_print_sec)/1000);;
+						if(sec>60){count_print_sec = now; min++;};
+						ctx.font="bold 10pt 微軟正黑體"; 
+						ctx.fillStyle = '#0200BE';
+						ctx.fillText(milli_sec,270,20);
+						ctx.font="bold 10pt Segoe Print"; 
+						ctx.fillStyle = 'black';
+						ctx.fillText('seccond',200,20);
+						ctx.font="bold 10pt 微軟正黑體"; 
+						ctx.fillStyle = '#0200BE';
+						ctx.fillText(sec,183,20);
+						ctx.font="bold 10pt Segoe Print"; 
+						ctx.fillStyle = 'black';
+						ctx.fillText('minute',115,20);
+						ctx.font="bold 10pt 微軟正黑體"; 
+						ctx.fillStyle = '#0200BE';
+						ctx.fillText(min,97,20);
+						ctx.font="bold 13pt 微軟正黑體"; 
+						ctx.fillStyle = 'black';
+						ctx.fillText('經過時間:',15,22);
+						
+						ctx.font="bold 13pt 微軟正黑體"; 
+						ctx.fillStyle = 'black';
+						ctx.fillText('剩餘題數:',350,22);
+						ctx.fillStyle = 'blue';
+						ctx.fillText(question_Quantity,430,22);
+						
+						ctx.fillRect(165,50,bingo_time*10,5);
+						ctx.strokeStyle = 'gray';
+						ctx.lineWidth = 1;
+						ctx.strokeRect(165, 50, 150, 5);
+						
+						
+			
+				
+				if(bingo)
+				{
+						right_sound.play();
+						ctx.beginPath();
+						ctx.arc(235,245,120,0,Math.PI*2,true);
+						ctx.lineWidth = 20;
+						ctx.strokeStyle = "gold";
+						ctx.stroke();
+						ctx.closePath();
+				}
+				if(bingo)
+				{	
+					ctx.beginPath();
+					
+					/*ctx.fillStyle=background[bgcolor];
+					ctx.fillRect(ques_x,80,220,100);*/
+
+					ctx.fillStyle='green'
+					ctx.font="bold 10pt Segoe Print"
+					ctx.fillText('Start',125,55);
+									
+					ctx.font="bold 10pt Segoe Print"
+					ctx.fillText('Fin',320,55);
+						
+					ctx.fillStyle='white';
+					ctx.fillRect(ques_x,80,220,100);
+					
+						ctx.font="bold 70pt 微軟正黑體"; 
+						ctx.fillStyle = 'black';
+						ctx.fillText(text[answer],ques_x+20,165);
+						
+						
+					ctx.fillStyle=bg0;
+					ctx.fillRect(ques_x-24,225,91,51);
+					
+					ctx.fillStyle=textcolor[ans_text[0]];
+					ctx.fillRect(ques_x-20,229,83,43);
+					
+				/*	ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[0]];
+					ctx.fillText(text[ans_text[0]],ques_x-17,265);*/
+					
+					
+					ctx.fillStyle=bg1;
+					ctx.fillRect(ques_x-24,285,91,51);
+					
+					ctx.fillStyle=textcolor[ans_text[1]];
+					ctx.fillRect(ques_x-20,289,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[1]];
+					ctx.fillText(text[ans_text[1]],ques_x-17,326);*/
+					
+					ctx.fillStyle=bg2;
+					ctx.fillRect(ques_x-24+190,225,91,51);
+				
+					ctx.fillStyle=textcolor[ans_text[2]];
+					ctx.fillRect(ques_x-20+190,229,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[2]];
+					ctx.fillText(text[ans_text[2]],ques_x-17+190,265);*/
+					
+					ctx.fillStyle=bg3;
+					ctx.fillRect(ques_x-24+190,285,91,51);
+					
+					ctx.fillStyle=textcolor[ans_text[3]];
+					ctx.fillRect(ques_x-20+190,289,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[3]];
+					ctx.fillText(text[ans_text[3]],ques_x-17+190,326);*/
+					
+					
+					ctx.fillStyle=textcolor[ans_text[4]];
+					ctx.fillRect(ques_x-20,349,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[4]];
+					ctx.fillText(text[ans_text[4]],ques_x-17,387);*/
+				
+					
+					ctx.fillStyle=textcolor[ans_text[5]];
+					ctx.fillRect(ques_x-20+190,349,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[5]];
+					ctx.fillText(text[ans_text[5]],ques_x-17+190,387);*/
+					ctx.closePath();
+					
+					ques_x-=40;
+					
+					if(ques_x<-500)
+					{
+						ques_x = 450;
+						
+						bingo = false;
+						create_time = 0;
+						questionAnimation();
+						
+					}
+					
+				
+					
+					
+				
+				}
+				else
+				{
+				
+						
+						ctx.beginPath();
+					
+				
+					
+					ctx.fillStyle='white';
+					ctx.fillRect(ques_x,80,220,100);
+
+						ctx.font="bold 70pt 微軟正黑體"; 
+						ctx.fillStyle ='black';
+						ctx.fillText(text[answer],ques_x+20,165);
+					
+				
+									ctx.fillStyle='green'
+									ctx.font="bold 10pt Segoe Print"
+									ctx.fillText('Start',125,55);
+									
+									ctx.font="bold 10pt Segoe Print"
+									ctx.fillText('Fin',320,55);
+									
+								
+					
+					ctx.fillStyle=bg0;
+					ctx.fillRect(ques_x-24,225,91,51);
+					
+					ctx.fillStyle=textcolor[ans_text[0]];
+					ctx.fillRect(ques_x-20,229,83,43);
+					
+					/*tx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_text[0]];
+					ctx.fillText(text[ans_text[0]],ques_x-17,265);*/
+					
+					if(wrong0)
+					{	
+						
+						ctx.font="bold 65pt Arial"; 
+						ctx.fillStyle = "gray";
+						ctx.fillText('x',ques_x-5,274);
+					}
+					
+					
+					ctx.fillStyle=bg1;
+					ctx.fillRect(ques_x-24,285,91,51);
+					
+					ctx.fillStyle=textcolor[ans_text[1]];
+					ctx.fillRect(ques_x-20,289,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[1]];
+					ctx.fillText(text[ans_text[1]],ques_x-17,326);*/
+					
+					if(wrong1)
+					{
+						ctx.font="bold 65pt Arial"; 
+						ctx.fillStyle = "gray";
+						ctx.fillText('x',ques_x-5,334);
+					}
+					
+					ctx.fillStyle=bg2;
+					ctx.fillRect(ques_x-24+190,225,91,51);
+				
+					ctx.fillStyle=textcolor[ans_text[2]];
+					ctx.fillRect(ques_x-20+190,229,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[2]];
+					ctx.fillText(text[ans_text[2]],ques_x-17+190,265);*/
+					
+					if(wrong2)
+					{
+						ctx.font="bold 65pt Arial"; 
+						ctx.fillStyle = "gray";
+						ctx.fillText('x',ques_x-5+190,274);
+					}
+					
+					ctx.fillStyle=bg3;
+					ctx.fillRect(ques_x-24+190,285,91,51);
+					
+					ctx.fillStyle=textcolor[ans_text[3]];
+					ctx.fillRect(ques_x-20+190,289,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[3]];
+					ctx.fillText(text[ans_text[3]],ques_x-17+190,326);*/
+					
+					if(wrong3)
+					{
+						ctx.font="bold 65pt Arial"; 
+						ctx.fillStyle = "gray";
+						ctx.fillText('x',ques_x-5+190,334);
+					}
+					
+					ctx.fillStyle=bg4;
+					ctx.fillRect(ques_x-24,345,91,51);
+					ctx.fillStyle=textcolor[ans_text[4]];
+					ctx.fillRect(ques_x-20,349,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[4]];
+					ctx.fillText(text[ans_text[4]],ques_x-17,387);*/
+					
+					if(wrong4)
+					{
+						ctx.font="bold 65pt Arial"; 
+						ctx.fillStyle = "gray";
+						ctx.fillText('x',ques_x-5,394);
+					}
+					
+					ctx.fillStyle=bg5;
+					ctx.fillRect(ques_x-24+190,345,91,51);
+					ctx.fillStyle=textcolor[ans_text[5]];
+					ctx.fillRect(ques_x-20+190,349,83,43);
+					
+					/*ctx.font="bold 30pt 微軟正黑體"; 
+					ctx.fillStyle = textcolor[ans_color[5]];
+					ctx.fillText(text[ans_text[5]],ques_x-17+190,387);*/
+					
+					if(wrong5)
+					{
+						ctx.font="bold 65pt Arial"; 
+						ctx.fillStyle = "gray";
+						ctx.fillText('x',ques_x-5+190,394);
+					}
+					
+					
+					ctx.closePath();
+
+						if(ques_x>148)
+							{
+								ques_x-=40;
+							}
+				
+				}
+				
+			}
+		
+		
+		
+		function drawBackground0(){			
+			var lingrad = ctx.createLinearGradient(0,0,width,height);
+				lingrad.addColorStop(0, '#F5F2F8');
+				lingrad.addColorStop(1, '#AAAAAA');
+				ctx.fillStyle = lingrad;  
+				ctx.fillRect(0,0,width,height);				
+		}
+		function drawBackground1(){			
+			var lingrad = ctx.createLinearGradient(0,0,width,height);
+				//lingrad.addColorStop(0, '#F5F2F8');
+				//lingrad.addColorStop(1, '#AAAAAA');
+				ctx.fillStyle = 'white';  
+				ctx.fillRect(0,0,width,height);				
+		}
+
+
+		
+			$(document).ready(function(){
+				runGame();
+			});
+	
+		</script>
+		
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Untitled Document</title>
+	</head>
+
+	<body>
+		<canvas id="cvs" width=480 height=600></canvas>
+	</body>
+</html>

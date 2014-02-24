@@ -1,0 +1,854 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+	<style>
+			canvas {
+  border: solid 5px #009EA0; 
+}
+</style>
+		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+		<script src="htf.js"></script>
+		<script type="text/javascript">
+		
+		var width = 480;
+		var height = 600;
+		var count;
+		var num ;
+		var endAnimation_x ;
+		var endMin;
+		var endSec;
+		var endMin_y ;
+		var endSec_y  ;
+		var endWrong_y ;
+		var cognition_grade ;
+		var cognition_grade_num;
+		var ding_audio;
+		var vNum1;
+		var vNum2;
+		var create_time ;
+		var vNum3;
+		var vNum4;
+		var vNum5;
+		var vNum6;
+		var ques_text;
+		var endAnimation_playtime;
+		var count_print_sec;
+		
+		var color = "red";
+		var starttime;
+		var state;
+		var mx = 0 ;
+	    var my = 0 ;
+		var fillstyle = 'gray';
+		var fontStyle ;
+		var fillstyle2 = 'gray';
+		var fontStyle2 ;
+		var suggestion;
+		var ding;
+		var ding2;
+		var gamestarttime;
+		var gameStart ;
+		var bingo;
+		var playagain_text;
+		var intro_img;
+		
+		
+		
+		var Dong ;
+		var bg_img;
+		var bg_img0;
+		var q1;
+		var q2;
+		var answer;
+		var question_text;
+		var bgcolor;
+		var pass_time;
+		var wrong_time;
+		
+		var have_been_chosen_0 = false;
+		var have_been_chosen_1 = false;
+		var have_been_chosen_2 = false;
+		var have_been_chosen_3 = false;
+		var have_been_chosen_4 = false;
+		var have_been_chosen_5 = false;
+		
+		var wrong0 = false;
+		var wrong1 = false;
+		var wrong2 = false;
+		var wrong3 = false;
+		var wrong4 = false;
+		var wrong5 = false;
+		
+		var wrong_sound;
+		var right_sound;
+
+		var question_Quantity;
+		var bingo_time;
+		var playagain_color;
+		var event_time = 0;
+		
+		var level;
+		var speed;
+		var testing;
+		var enter;
+		
+		var bonus;
+		var score;
+		var ding3;
+		var life;
+		var index_num ;
+		var user_ans;
+		
+		function initial(){
+		
+			intro_img = new Image();
+			intro_img.src = 'intro.png';
+		
+			question_Quantity = 15;
+			bingo_time = 0;
+			fontStyle = '30pt Arial';
+			fontStyle2 = '23pt 微軟正黑體';
+			drawBackground0();	
+			ding = new Audio()
+			ding.src = 'bingobubble.mp3';
+			ding2 = new Audio()
+			ding2.src = 'ding2.mp3';
+			ding3 = new Audio()
+			ding3.src = 'Ding.wav';
+			wrong_sound = new Audio();
+			wrong_sound.src = 'endbubble.mp3';
+			right_sound = new Audio();
+			right_sound.src = 'right.wav';
+			Dong = new Audio();
+			Dong.src = 'passbubble.mp3';
+			wrong_time = 0;
+			gameStart = false;
+			bingo = false;
+			state = 0;
+			min = 0;
+			ques_x = 450;
+			endAnimation_playtime = 0;		
+			count = 4;
+			num = 1;
+			endAnimation_x = 500;
+			endMin=0;
+			endSec=0;
+			endMin_y = -50;
+			endSec_y = -50;
+			endWrong_y = -50;
+			cognition_grade = 0;
+			cognition_grade_num = 0;
+			ding_audio = 0;
+			create_time = 0;
+			playagain_color ='gray';
+			playagain_text='30pt Segoe Print';
+			suggestion = '';
+			testing = [];
+			enter = false;
+			pass_time = 0;
+			bg_img = new Image();
+			bg_img.src = 'bg.jpg';
+			bg_img0 = new Image();
+			bg_img0.src = 'bg0.jpg';
+			level = 1;
+			speed = 1;
+			bonus = 20;
+			score = 0;
+			life = 5;
+			index_num = 1;
+			user_ans = 0;
+			
+			vNum1 =Math.random();
+								q1 = Math.round(vNum1*40+50);
+								vNum2 =Math.random();
+								q2 = Math.round(vNum2*40);
+								question_text = String(q1)+'-'+String(q2)+ '=';
+								answer = q1-q2;
+			
+			
+			
+			
+			if(event_time==0){
+			
+			
+					$('#getkey').keydown(function(e){
+							
+							if(state == 1)
+							{
+								switch (e.which) 
+								{
+									case 96:
+										if(testing.length < 3)
+										testing.push(0);
+										
+										break;
+									case 97:
+										if(testing.length < 3)
+										testing.push(1);
+										break;
+									case 98:
+										if(testing.length < 3)
+										testing.push(2);
+										break;
+									case 99:
+										if(testing.length < 3)
+										testing.push(3);
+										break;
+									case 100:
+										if(testing.length < 3)
+										testing.push(4);
+										break;
+									case 101:
+										if(testing.length < 3)
+										testing.push(5);
+										break;	
+									case 102:
+										if(testing.length < 3)
+										testing.push(6);
+										break;
+									case 103:
+										if(testing.length < 3)
+										testing.push(7);
+										break;
+									case 104:
+										if(testing.length < 3)
+										testing.push(8);
+										break;
+									case 105:
+										if(testing.length < 3)
+										testing.push(9);
+										break;
+									case 8:
+										testing.pop();
+										break;	
+									case 13:
+										enter = true;
+										break;	
+								}
+							}
+				});
+			
+			
+				$('#cvs').mousemove(function(e){
+				
+					mx = e.offsetX;
+					my = e.offsetY;
+					
+				
+					
+				}).mouseup(function(){
+				  md = false;
+				}).mousedown(function(){
+				  md = true;
+				}).dblclick(function(){
+					//reset
+					reset = true;
+				}).mouseout(function(){
+				  md = false;
+				}).click(function(){
+					
+					if(state == 0)
+					{
+						
+						if(180<mx && mx<280 && 366<my&& my<400)
+						{
+								starttime = new Date(); 
+								starttime = Number(starttime.getTime()); 
+								state = 1;
+						}
+						
+						if(170<mx && mx<310 && 470<my&& my<510)
+						{
+							state = 4;
+						
+						}
+					}else if(state == 1)
+					{
+			
+						}if(state == 2)
+						{
+							if(cognition_grade_num ==score && 180<mx && mx<420 && 400<my&& my<450)
+							{
+								initial();
+							}
+						}else{}
+						
+						if(state == 4)
+						{
+							if(330<mx && mx<450 && 540<my&& my<580)
+						{
+								starttime = new Date(); 
+								starttime = Number(starttime.getTime()); 
+								state = 1;
+						}
+						}
+					
+	
+				
+				
+				});
+				
+				event_time++;
+			}
+					
+		}
+		
+		
+	
+		
+		function update(){
+		
+					if(state == 0)
+					{
+						if(180<mx && mx<280 && 366<my&& my<400)
+						{
+							fontStyle = 'bold 30pt Segoe Print';
+							fillstyle = 'red';
+					
+
+							if(ding_audio ==0)
+							{
+								ding2.play();
+							}
+							ding_audio++;
+						}
+						else if(170<mx && mx<310 && 470<my&& my<510)
+						{
+							fontStyle2 = 'bold 25pt 微軟正黑體';
+							fillstyle2 = 'red';
+					
+
+							if(ding_audio ==0)
+							{
+								ding2.play();
+							}
+							ding_audio++;
+						}else
+						{
+							fontStyle = '30pt Segoe Print';	
+							fillstyle = '#0200A0';
+					
+							fontStyle2 = '25pt 微軟正黑體';
+							fillstyle2 = '#0200A0';
+							ding_audio = 0;
+							
+						}
+						
+					}else if(state == 1)
+					{
+						if(gameStart){
+						
+							if(life ==0)
+							{
+								state = 2;
+							}
+					
+						if(bingo_time ==15)
+						{
+							level = 2;
+							speed = 2;
+							bonus = 25;
+						}else if(bingo_time == 30)
+						{
+							level = 3;
+							speed = 3;
+							bonus = 35;
+						}else if(bingo_time == 40)
+						{
+							level = 4;
+							speed = 4;
+							bonus = 50;
+						}else{}
+						
+						var num = testing.length-1;
+						
+						if(bingo)
+						{
+							if(create_time==0)
+							{
+								bingo = true;
+								vNum1 =Math.random();
+								q1 = Math.round(vNum1*40+50);
+								vNum2 =Math.random();
+								q2 = Math.round(vNum2*40);
+								question_text = String(q1)+'-'+String(q2)+ '=';
+								answer = q1-q2;
+								bingo= false;
+	
+							}
+							
+							create_time++;
+						
+			
+							
+						}
+						
+						if(enter)
+						{
+							
+							for(i = 0 ;i<testing.length;i++)
+							{
+								user_ans += testing[num]*index_num;
+								num--;
+								index_num=index_num*10;
+								
+							}
+							
+							if(user_ans == answer)
+							{
+								
+								bingo_time++;
+								score+=bonus;
+								bingo = true;
+								ans_right = true;
+								ding.play();
+								
+							}else if(testing.length ==0)
+							{
+							
+							}
+							else{score-=10;wrong_time++;ans_wrong = true;}
+							enter = false;
+							testing = [];
+							create_time =0;
+						}
+						else
+						{
+						index_num = 1;
+						user_ans = 0;
+						ans_right = false;
+						ans_wrong = false;
+						}
+						
+						if(y<0){bingo = true; pass_time++;create_time =0;life--;wrong_sound.play();}
+						}
+					}else if(state == 2)
+					{
+							if(cognition_grade_num ==score && 180<mx && mx<420 && 400<my&& my<450)
+							{
+								playagain_color ='red';
+								playagain_text='bold 30pt Segoe Print';
+								if(ding_audio ==0)
+								{
+									ding2.play();
+								}
+							ding_audio++;
+							}else
+							{
+								ding_audio = 0;
+								playagain_color ='gray';
+								playagain_text='30pt Segoe Print';
+							}
+							
+							
+					}else if(state ==4)
+					{
+						if(330<mx && mx<450 && 540<my&& my<580)
+						{
+							fontStyle = 'bold 30pt Segoe Print';
+							fillstyle = 'red';
+					
+
+							if(ding_audio ==0)
+							{
+								ding2.play();
+							}
+							ding_audio++;
+						}
+						
+						else
+						{
+							fontStyle = '30pt Segoe Print';	
+							fillstyle = 'gray';
+					
+							
+							ding_audio = 0;
+							
+						}
+						
+					}else{}
+	
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		function draw(){
+			
+			
+			
+					if(state == 0)
+					{	
+						
+						
+						drawBackground2();
+								
+						
+						
+						ctx.beginPath();
+						ctx.fillStyle = '#0200BE';  
+						ctx.font="bold 30pt 微軟正黑體";
+						ctx.fillText('認知能力訓練',120,200);
+						
+						ctx.fillStyle = '#0200BE';  
+						ctx.font="20pt 微軟正黑體";
+						ctx.fillText('－算術減法運算－',250,260);
+						ctx.fillStyle = fillstyle;  
+						ctx.font= fontStyle; 
+						ctx.fillText('Start',180,400);
+						ctx.fillStyle = fillstyle2;  
+						ctx.font= fontStyle2; 
+						ctx.fillText('遊戲說明',170,500);
+					
+						
+					}else if(state == 1)
+					{
+					
+						drawBackground1();
+						if(gameStart)
+						{
+							questionAnimation();
+							
+						}else
+						{
+							prepareAnimation();
+						}
+						
+						
+					}else if(state == 2)
+					{
+					
+						if(endAnimation_playtime ==0)
+						{
+							endAnimation()
+								
+
+						}else	
+						{
+							drawBackground0();
+							finallyAnimation();
+						
+						}
+					}else if(state == 4)
+					{
+					
+							gameIntroduction();
+					
+					
+					}else{}
+			
+
+			
+		}		
+		
+		
+		
+				function gameIntroduction()
+				{
+					drawBackground0();
+					ctx.fillStyle = "blue";
+					ctx.font="bold 14pt 微軟正黑體"; 
+					ctx.fillText('關於此遊戲:',10,30);
+					ctx.fillStyle = "black";
+					ctx.fillText('在短暫的時間內，透過反應力以及專注力，來計算',10,50);
+					ctx.fillText('並完成一道簡單的算術題目，透過緊迫的時間，',10,70);
+					ctx.fillText('來達到刺激腦部認知能力的效果',10,90);
+					
+					ctx.fillStyle = "blue";
+					ctx.font="bold 14pt 微軟正黑體"; 
+					ctx.fillText('遊戲方法:',10,120);
+					ctx.drawImage(intro_img,10, 130);
+						ctx.fillStyle = fillstyle;  
+						ctx.font= fontStyle; 
+						ctx.fillText('Start',340,580);
+				}
+		
+				
+				function finallyAnimation()
+				{
+						
+						ctx.beginPath();
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('答對題數',10,30);
+						ctx.font="bold 13pt Segoe Print"; 
+						ctx.fillStyle='blue';
+						if(endMin_y<30)
+						{
+							ctx.fillText(bingo_time,110,endMin_y);
+							endMin_y+=3;
+						}
+						else
+						{
+							ctx.fillText(bingo_time,110,30);
+						}
+						ctx.fillStyle = "gray";
+						ctx.fillText('題',135,30);
+						ctx.fillStyle='blue';
+						
+						
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('答錯次數',10,80);
+						ctx.font="bold 13pt Segoe Print"; 
+						ctx.fillStyle='blue';
+						if(endWrong_y<30 && endMin_y>30)
+						{
+								ctx.fillText(wrong_time,110,endWrong_y);
+							endWrong_y+=3;
+						}
+						else if(endWrong_y>30)
+						{
+								ctx.fillText(wrong_time,110,80);
+						}
+						
+						//cognition_grade = Math.floor(Math.sqrt(seconds+wrong_time)*30);
+						
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('次',135,80);
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('得到總分:',10,130);
+						if(endWrong_y>30)
+						{
+							cognition_grade_num = score;
+							
+							ctx.fillStyle='blue';
+							ctx.fillText(score,110,130);
+						}
+						
+						
+						
+						
+						if(500<=score<=1000)
+						{
+							suggestion = "相當於一般大學生，能力開始有走下坡的情況";
+						}else if(200<score<500)
+						{
+							suggestion = "相當於一般中壯年，偶而會忘東忘西";
+						}else if(200<=score)
+						{
+							suggestion = "相當於老年人，各能力已衰退";
+						}else if(score>1000)
+						{
+							suggestion = "相當於青少年，各能力狀態絕佳";
+						}else{}
+						
+						ctx.fillStyle = "gray";
+						ctx.font="bold 14pt 微軟正黑體"; 
+						ctx.fillText('認知能力:',10,180);
+						
+						if(cognition_grade_num ==score)
+						{
+						
+							ctx.fillStyle = "black";
+							ctx.font="bold 12pt 微軟正黑體"; 
+							ctx.fillText(suggestion,10,200);
+							ctx.fillStyle = playagain_color;
+							ctx.font= playagain_text; 
+							ctx.fillText('Play again',200,450);
+						}
+						
+						
+						ctx.closePath();
+				}
+				
+			function endAnimation()
+			{
+						drawBackground0();
+						ctx.beginPath();
+						ctx.fillStyle = "black";
+						ctx.font="bold 50pt Segoe Print"; 
+						ctx.fillText('Game Over',endAnimation_x,245);
+						
+						ctx.closePath();
+						if(160<endAnimation_x<320)
+						{
+							endAnimation_x-=10;
+						}else{endAnimation_x-=25;}
+						if(endAnimation_x < -200)
+						{
+							endAnimation_playtime = 1;
+						}
+			}
+		
+			function prepareAnimation()
+			{		
+					var now = new Date(); 
+					now = Number(now.getTime()); 
+					if(Math.floor(.5+(now-starttime)/1000)<4)
+					{
+						
+						ctx.fillStyle = "gray";
+						ctx.beginPath();
+						ctx.font="bold 50pt 微軟正黑體"; 
+						ctx.fillText(count,220,265);
+						ctx.arc(235,245,80,0,Math.PI*2,true);
+						ctx.lineWidth = 5;
+						ctx.strokeStyle = "gray";
+						ctx.stroke();
+						ctx.closePath();
+						
+						if(Math.floor(.5+(now-starttime)/1000) == num)
+						{
+							ding.play();
+							count--;
+							
+							num++;
+						}
+						
+						ctx.fillStyle = "black";
+						ctx.beginPath();
+						ctx.font="bold 50pt 微軟正黑體"; 
+						ctx.fillText(count,223,268);
+						ctx.arc(240,245,80,0,Math.PI*2,true);
+						ctx.lineWidth = 5;
+						ctx.strokeStyle = "black";
+						ctx.stroke();
+						ctx.closePath();
+					}
+					else
+					{
+						Dong.play();
+						gameStart = true;
+						gamestarttime = new Date(); 
+						gamestarttime = Number(gamestarttime.getTime());
+						count_print_sec = gamestarttime;
+					}
+										
+			}
+			var cordi_x;
+			var y =600;
+			
+				cordi_x =Math.random();
+				cordi_x = Math.round(cordi_x*260+20);
+			function questionAnimation()
+			{	
+			
+				if(bingo){
+				cordi_x =Math.random();
+				cordi_x = Math.round(cordi_x*260+20);
+				y=600;
+				}
+			
+					ctx.beginPath();
+						
+				
+				
+		
+				
+			
+           
+            ctx.arc(cordi_x+30, y-8, 40, 0, 2 * Math.PI, false);
+
+            ctx.fillStyle = "#8ED6FF";
+            ctx.fill();
+            ctx.lineWidth = 2;
+			if(y<200)
+			{
+				ctx.lineWidth = 3;
+			 ctx.strokeStyle = "red";
+			}else
+			{
+            ctx.strokeStyle = "gray";
+			}
+            ctx.stroke();
+ 
+            ctx.beginPath();
+ 
+           
+           
+            ctx.arc(cordi_x-17+30, y-18-8, 12, 0, 2 * Math.PI, false);
+			 
+            ctx.fillStyle = "white";
+            ctx.fill();
+				
+				ctx.closePath();
+				
+         
+				ctx.beginPath();
+				
+						ctx.moveTo(350, 0);
+						ctx.lineTo(350, 600);
+						ctx.lineWidth =3;
+						ctx.strokeStyle = "blue"; // line color
+						ctx.stroke();
+						
+						
+						ctx.fillStyle = 'black';  
+						ctx.font="bold 15pt 微軟正黑體";
+						
+						ctx.fillText(question_text,cordi_x,y);
+						
+						ctx.fillStyle = 'black';  
+						ctx.font="bold 22pt Segoe Print";
+						ctx.fillText('Level',370,30);
+						ctx.fillStyle = 'blue';
+						ctx.fillText(level,380,60);
+						
+						ctx.fillStyle = 'black';  
+						ctx.font="bold 22pt Segoe Print";
+						ctx.fillText('Score',370,110);
+						ctx.fillStyle = 'blue';
+						ctx.fillText(score,380,140);
+						ctx.fillStyle = 'black';  
+						ctx.font="bold 20pt 微軟正黑體";
+						ctx.fillText('輸入答案',360,270);
+						ctx.fillStyle = 'blue';
+						for(i=0;i<testing.length;i++)
+						{
+							ctx.fillText(testing[i],380+i*20,300);
+						}
+						ctx.fillStyle = 'black';  
+						ctx.font="bold 20pt 微軟正黑體";
+						ctx.fillText('剩餘泡泡',360,190);
+						ctx.fillStyle = 'red';
+						for(i=0;i<life;i++)
+						{
+							ctx.beginPath();
+							ctx.arc(370+i*23, 220, 10, 0, 2 * Math.PI, false);
+							ctx.fillStyle = "red";
+							ctx.fill();
+							ctx.closePath();
+						}
+						ctx.closePath();
+						y=y-speed;
+				
+			}
+		
+		
+		
+		function drawBackground0(){			
+			var lingrad = ctx.createLinearGradient(0,0,width,height);
+				lingrad.addColorStop(0, 'white');
+				lingrad.addColorStop(1, 'blue');
+				ctx.fillStyle = lingrad;  
+				ctx.fillRect(0,0,width,height);				
+		}
+		function drawBackground1(){			
+			ctx.drawImage(bg_img,0,0);			
+		}
+		function drawBackground2(){			
+			ctx.drawImage(bg_img0,0,0);		
+		}
+
+
+		
+			$(document).ready(function(){
+				runGame();
+			});
+		</script>
+		
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Untitled Document</title>
+	</head>
+
+	<body id="getkey">
+		<canvas id="cvs" width=480 height=600></canvas>
+	</body>
+</html>
